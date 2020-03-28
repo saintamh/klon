@@ -27,7 +27,7 @@ class LxmlKlon(Klon):
 
     @classmethod
     def _is_element(cls, obj):
-        return isinstance(obj, lxml.etree._Element)
+        return isinstance(obj, lxml.etree._Element)  # pylint: disable=protected-access
 
     @classmethod
     def tostring(cls, etree, **kwargs):
@@ -35,6 +35,6 @@ class LxmlKlon(Klon):
 
 #----------------------------------------------------------------------------------------------------------------------------------
 
-build_etree = LxmlKlon.build_etree
+build_etree = LxmlKlon.build_etree  # it's a function, pylint: disable=invalid-name
 
 #----------------------------------------------------------------------------------------------------------------------------------
