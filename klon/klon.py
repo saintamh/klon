@@ -19,20 +19,19 @@ from klon.compatibility import text_type
 class Klon:
 
     @classmethod
-    def build_etree(cls, tag, *args, **kwargs):
-        attrib, args = cls._compile_attrib(*args, **kwargs)
+    def build_etree(cls, tag, *args):
+        attrib, args = cls._compile_attrib(*args)
         tag, attrib = cls._parse_css_style_tags(tag, attrib)
         element = cls._create_element(tag, attrib)
         cls._append_children(element, args)
         return element
 
     @classmethod
-    def _compile_attrib(cls, *args, **kwargs):
+    def _compile_attrib(cls, *args):
         attrib = {}
         if len(args) > 0 and isinstance(args[0], dict):
             attrib.update(args[0])
             args = args[1:]
-        attrib.update(kwargs)
         return attrib, args
 
     @classmethod

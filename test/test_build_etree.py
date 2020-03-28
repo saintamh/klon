@@ -60,24 +60,6 @@ def test_build_attrib_from_dict(klon):
     check(element, 'mynode', {'a': '1'})
     check_str(klon, element, '<mynode a="1" />')
 
-
-@parametrize_implementations
-def test_build_attrib_from_kwargs(klon):
-    element = klon.build_etree('mynode', a='1')
-    check(element, 'mynode', {'a': '1'})
-
-
-@parametrize_implementations
-def test_build_attrib_from_dict_and_kwargs(klon):
-    element = klon.build_etree('mynode', {'a': '1'}, b='2')
-    check(element, 'mynode', {'a': '1', 'b': '2'})
-
-
-@parametrize_implementations
-def test_build_attrib_kwarg_overrides_dict(klon):
-    element = klon.build_etree('mynode', {'a': '1', 'b': '2'}, a='3', c='4')
-    check(element, 'mynode', {'a': '3', 'b': '2', 'c': '4'})
-
 #----------------------------------------------------------------------------------------------------------------------------------
 
 @parametrize_implementations
