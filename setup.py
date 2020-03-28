@@ -12,6 +12,9 @@ import setuptools
 
 #----------------------------------------------------------------------------------------------------------------------------------
 
+with open(path.join(path.dirname(__file__), 'README.md'), 'rb') as file_in:
+    long_description = file_in.read().decode('UTF-8')
+
 with open(path.join(path.dirname(__file__), 'klon', 'version.py'), 'rb') as file_in:
     klon_version = re.search(
         r'KLON_VERSION = \'(.+)\'',
@@ -24,6 +27,8 @@ setuptools.setup(
     author='Herv\u00e9 Saint-Amand',
     author_email='klon@saintamh.org',
     description='Utilities for building ElementTrees',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     url='https://github.com/saintamh/klon/',
     packages=setuptools.find_packages(),
     install_requires=[],
