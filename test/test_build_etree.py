@@ -41,7 +41,9 @@ def check_str(klon, element, expected_str):
 
 def _normalise_str(text):
     # Smoothe over the slight cosmetic differences btw the output of xml.etree.ElementTree.tostring and lxml.etree.tostring
-    return re.sub(r' (?=/>)', '', text)
+    text = re.sub(r'^<\?xml[^>]*>\s*', '', text)
+    text = re.sub(r' (?=/>)', '', text)
+    return text
 
 #----------------------------------------------------------------------------------------------------------------------------------
 
