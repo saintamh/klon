@@ -49,7 +49,9 @@ class Klon:
     def _append_children(cls, element, args):
         text_anchor = None
         for child in args:
-            if isinstance(child, text_type):
+            if child in (None, (), []):
+                pass
+            elif isinstance(child, text_type):
                 if text_anchor is None:
                     element.text = (element.text or '') + child
                 else:

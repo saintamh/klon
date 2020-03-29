@@ -146,4 +146,16 @@ def test_byte_tag(klon):
     with pytest.raises(ValueError):
         klon.build_etree(b'mytag', {'a': '1'})
 
+@parametrize_implementations
+def test_empty_children_array_are_noop(klon):
+    element = klon.build_etree('mynode', ['mychild', 'a', [], 'b'], [], 'c')
+    check(element, 'mynode', children=[{'tag': 'mychild', 'text': 'ab', 'tail': 'c'}])
+    check_str(klon, element, '<mynode><mychild>ab</mychild>c</mynode>')
+
+@parametrize_implementations
+def test_none_values_are_noop(klon):
+    element = klon.build_etree('mynode', ['mychild', 'a', None, 'b'], None, 'c')
+    check(element, 'mynode', children=[{'tag': 'mychild', 'text': 'ab', 'tail': 'c'}])
+    check_str(klon, element, '<mynode><mychild>ab</mychild>c</mynode>')
+
 #----------------------------------------------------------------------------------------------------------------------------------
