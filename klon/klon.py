@@ -21,7 +21,7 @@ class Klon:
     @classmethod
     def build_etree(cls, tag, *args):
         if not isinstance(tag, text_type):
-            raise ValueError("Tag must be a %s, got %r" % (text_type.__name__, tag))
+            raise ValueError('Tag must be a %s, got %r' % (text_type.__name__, tag))
         attrib, args = cls._compile_attrib(*args)
         tag, attrib = cls._parse_css_style_tags(tag, attrib)
         element = cls._create_element(tag, attrib)
