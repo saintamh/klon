@@ -135,3 +135,15 @@ def test_node_with_prebuilt_child(klon):
     check_str(klon, element, '<mynode><mychild /></mynode>')
 
 #----------------------------------------------------------------------------------------------------------------------------------
+
+@parametrize_implementations
+def test_non_str_tag(klon):
+    with pytest.raises(ValueError):
+        klon.build_etree(object(), {'a': '1'})
+
+@parametrize_implementations
+def test_byte_tag(klon):
+    with pytest.raises(ValueError):
+        klon.build_etree(b'mytag', {'a': '1'})
+
+#----------------------------------------------------------------------------------------------------------------------------------
