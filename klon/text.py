@@ -20,7 +20,12 @@ NON_CONTENT_TAGS = frozenset([
 def extract_text(etree, normalise_spaces=True, multiline=False):
     if etree is None:
         return None
-    text = ''.join(_walk(etree, multiline))
+
+    # using a list rather than making _walk() a yielding generator makes it about 5% faster
+    parts = []
+    _walk(etree, multiline, parts)
+    text = ''.join(parts)
+
     if normalise_spaces:
         if multiline:
             text = re.sub(
@@ -33,22 +38,22 @@ def extract_text(etree, normalise_spaces=True, multiline=False):
     return text
 
 
-def _walk(node, multiline):
+def _walk(node, multiline, parts):
     if node.tag in NON_CONTENT_TAGS:
         return
 
     if multiline:
         if node.tag == 'br':
-            yield '\n'
+            parts.append('\n')
         elif node.tag in BLOCK_TAGS:
-            yield '\n\n'
+            parts.append('\n\n')
 
     if node.text:
-        yield node.text
+        parts.append(node.text)
     for child in node:
-        yield from _walk(child, multiline)
+        _walk(child, multiline, parts)
 
     if multiline and node.tag in BLOCK_TAGS:
-        yield '\n\n'
+        parts.append('\n\n')
     if node.tail:
-        yield node.tail
+        parts.append(node.tail)
