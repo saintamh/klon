@@ -1,10 +1,7 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
 # it's the pytest way, pylint: disable=redefined-outer-name
 
-#----------------------------------------------------------------------------------------------------------------------------------
-# includes
 
 # 2+3 compat
 from __future__ import absolute_import, division, print_function, unicode_literals
@@ -19,7 +16,6 @@ import pytest
 from klon import Klon
 from klon.lxml import LxmlKlon
 
-#----------------------------------------------------------------------------------------------------------------------------------
 
 @pytest.fixture(params=[Klon, LxmlKlon])
 def klon(request):
@@ -41,13 +37,13 @@ def check_str(klon, element, expected_str):
     generated_str = generated_bytes.decode('UTF-8')
     assert _normalise_str(generated_str) == _normalise_str(expected_str)
 
+
 def _normalise_str(text):
     # Smoothe over the slight cosmetic differences btw the output of xml.etree.ElementTree.tostring and lxml.etree.tostring
     text = re.sub(r'^<\?xml[^>]*>\s*', '', text)
     text = re.sub(r' (?=/>)', '', text)
     return text
 
-#----------------------------------------------------------------------------------------------------------------------------------
 
 def test_build_empty_node(klon):
     element = klon.build_etree('mynode')
@@ -60,7 +56,6 @@ def test_build_attrib_from_dict(klon):
     check(element, 'mynode', {'a': '1'})
     check_str(klon, element, '<mynode a="1" />')
 
-#----------------------------------------------------------------------------------------------------------------------------------
 
 def test_css_style_id(klon):
     element = klon.build_etree('mynode#test')
@@ -73,7 +68,6 @@ def test_css_style_class(klon):
     check(element, 'mynode', {'class': 'test'})
     check_str(klon, element, '<mynode class="test" />')
 
-#----------------------------------------------------------------------------------------------------------------------------------
 
 def test_build_node_with_text(klon):
     element = klon.build_etree('mynode', 'Text')
@@ -92,7 +86,6 @@ def test_build_node_with_text_and_attrib(klon):
     check(element, 'mynode', attrib={'a': '1'}, text='Text')
     check_str(klon, element, '<mynode a="1">Text</mynode>')
 
-#----------------------------------------------------------------------------------------------------------------------------------
 
 def test_node_with_children(klon):
     element = klon.build_etree('mynode', ['mychild'])
@@ -124,24 +117,24 @@ def test_node_with_prebuilt_child(klon):
     check(element, 'mynode', children=[{'tag': 'mychild'}])
     check_str(klon, element, '<mynode><mychild /></mynode>')
 
-#----------------------------------------------------------------------------------------------------------------------------------
 
 def test_non_str_tag(klon):
     with pytest.raises(ValueError):
         klon.build_etree(object(), {'a': '1'})
 
+
 def test_byte_tag(klon):
     with pytest.raises(ValueError):
         klon.build_etree(b'mytag', {'a': '1'})
+
 
 def test_empty_children_array_are_noop(klon):
     element = klon.build_etree('mynode', ['mychild', 'a', [], 'b'], [], 'c')
     check(element, 'mynode', children=[{'tag': 'mychild', 'text': 'ab', 'tail': 'c'}])
     check_str(klon, element, '<mynode><mychild>ab</mychild>c</mynode>')
 
+
 def test_none_values_are_noop(klon):
     element = klon.build_etree('mynode', ['mychild', 'a', None, 'b'], None, 'c')
     check(element, 'mynode', children=[{'tag': 'mychild', 'text': 'ab', 'tail': 'c'}])
     check_str(klon, element, '<mynode><mychild>ab</mychild>c</mynode>')
-
-#----------------------------------------------------------------------------------------------------------------------------------

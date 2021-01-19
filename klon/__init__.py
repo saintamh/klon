@@ -1,17 +1,8 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
-#----------------------------------------------------------------------------------------------------------------------------------
-# includes
-
-# 2+3 compat
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 # klon
 from .klon import Klon
 
-#----------------------------------------------------------------------------------------------------------------------------------
 
 build_etree = Klon.build_etree  # it's a function, pylint: disable=invalid-name
-
-#----------------------------------------------------------------------------------------------------------------------------------

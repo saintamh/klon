@@ -1,27 +1,16 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-#----------------------------------------------------------------------------------------------------------------------------------
-# includes
-
-# 2+3 compat
-from __future__ import absolute_import, division, print_function, unicode_literals
+#!/usr/bin/env python3
 
 # standards
 import re
 import xml.etree.ElementTree
 
-# klon
-from klon.compatibility import text_type
-
-#----------------------------------------------------------------------------------------------------------------------------------
 
 class Klon:
 
     @classmethod
     def build_etree(cls, tag, *args):
-        if not isinstance(tag, text_type):
-            raise ValueError('Tag must be a %s, got %r' % (text_type.__name__, tag))
+        if not isinstance(tag, str):
+            raise ValueError(f'Tag must be a str, got {tag!r}')
         attrib, args = cls._compile_attrib(*args)
         tag, attrib = cls._parse_css_style_tags(tag, attrib)
         element = cls._create_element(tag, attrib)
@@ -51,7 +40,7 @@ class Klon:
         for child in args:
             if child in (None, (), []):
                 pass
-            elif isinstance(child, text_type):
+            elif isinstance(child, str):
                 if text_anchor is None:
                     element.text = (element.text or '') + child
                 else:
@@ -75,5 +64,3 @@ class Klon:
     @classmethod
     def tostring(cls, etree, **kwargs):
         return xml.etree.ElementTree.tostring(etree, **kwargs)
-
-#----------------------------------------------------------------------------------------------------------------------------------

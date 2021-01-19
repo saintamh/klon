@@ -1,11 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-#----------------------------------------------------------------------------------------------------------------------------------
-# includes
-
-# 2+3 compat
-from __future__ import absolute_import, division, print_function, unicode_literals
+#!/usr/bin/env python3
 
 # 3rd parties
 #
@@ -17,7 +10,6 @@ import lxml.etree
 # klon
 from .klon import Klon
 
-#----------------------------------------------------------------------------------------------------------------------------------
 
 class LxmlKlon(Klon):
 
@@ -33,8 +25,5 @@ class LxmlKlon(Klon):
     def tostring(cls, etree, **kwargs):
         return lxml.etree.tostring(etree, **kwargs)
 
-#----------------------------------------------------------------------------------------------------------------------------------
 
 build_etree = LxmlKlon.build_etree  # it's a function, pylint: disable=invalid-name
-
-#----------------------------------------------------------------------------------------------------------------------------------
