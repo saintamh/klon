@@ -17,43 +17,43 @@ NON_CONTENT_TAGS = frozenset([
 ])
 
 
-def extract_text(etree, normalise_spaces=True, multiline=False):
+def extract_text(etree, multiline=False):
     if etree is None:
         return None
 
     # using a list rather than making _walk() a yielding generator makes it about 5% faster
     parts = []
-    _walk(etree, multiline, parts)
+    _walk(etree, parts)
     text = ''.join(parts)
+    print(repr(text))
 
-    if normalise_spaces:
-        if multiline:
-            text = re.sub(
-                r'\s+',
-                lambda m: '\n\n' if '\n\n' in m.group() else '\n' if '\n' in m.group() else ' ',
-                text
-            ).strip()
-        else:
-            text = re.sub(r'\s+', ' ', text).strip()
+    if multiline:
+        text = re.sub(
+            r'\s+',
+            lambda m: '\n\n' if '\n\n' in m.group() else '\n' if '\n' in m.group() else ' ',
+            text
+        ).strip()
+    else:
+        text = re.sub(r'\s+', ' ', text).strip()
+
     return text
 
 
-def _walk(node, multiline, parts):
+def _walk(node, parts):
     if node.tag in NON_CONTENT_TAGS:
         return
 
-    if multiline:
-        if node.tag == 'br':
-            parts.append('\n')
-        elif node.tag in BLOCK_TAGS:
-            parts.append('\n\n')
+    if node.tag == 'br':
+        parts.append('\n')
+    elif node.tag in BLOCK_TAGS:
+        parts.append('\n\n')
 
     if node.text:
         parts.append(node.text)
     for child in node:
-        _walk(child, multiline, parts)
+        _walk(child, parts)
 
-    if multiline and node.tag in BLOCK_TAGS:
+    if node.tag in BLOCK_TAGS:
         parts.append('\n\n')
     if node.tail:
         parts.append(node.tail)
