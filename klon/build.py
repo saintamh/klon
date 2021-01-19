@@ -6,6 +6,9 @@ import re
 # 3rd parties
 import lxml.etree as ET
 
+# klon
+from .utils import is_etree
+
 
 def build_etree(tag, *args):
     if not isinstance(tag, str):
@@ -49,11 +52,3 @@ def _append_children(element, args):
                 child = build_etree(*child)
             element.append(child)
             text_anchor = child
-
-
-def is_etree(obj):
-    return isinstance(obj, ET._Element)  # pylint: disable=protected-access
-
-
-def tostring(etree, **kwargs):
-    return ET.tostring(etree, **kwargs)

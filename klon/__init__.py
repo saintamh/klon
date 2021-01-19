@@ -1,3 +1,4 @@
 #!/usr/bin/env python3
 
-from .klon import build_etree, is_etree, tostring
+from .build import build_etree
+from .utils import is_etree, tostring
