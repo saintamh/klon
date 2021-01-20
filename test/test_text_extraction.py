@@ -20,6 +20,19 @@ from klon import extract_text, parse_html_etree
             'one two',
             'one\n\ntwo',
         ),
+        (
+            '''
+              <p>One paragraph</p>
+              <p>two paragraphs</p>
+              three and<br>
+              four
+              <p>and five<br></p>
+              and six and<br>
+              <p>seven</p>
+            ''',
+            'One paragraph two paragraphs three and four and five and six and seven',
+            'One paragraph\n\ntwo paragraphs\n\nthree and\nfour\n\nand five\n\nand six and\n\nseven',
+        ),
     ]
 )
 def test_extract_text(html, expected_default, expected_multiline):

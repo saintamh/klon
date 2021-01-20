@@ -25,7 +25,6 @@ def extract_text(etree, multiline=False):
     parts = []
     _walk(etree, parts)
     text = ''.join(parts)
-    print(repr(text))
 
     if multiline:
         text = re.sub(
@@ -49,11 +48,11 @@ def _walk(node, parts):
         parts.append('\n\n')
 
     if node.text:
-        parts.append(node.text)
+        parts.append(re.sub(r'\s+', ' ', node.text))
     for child in node:
         _walk(child, parts)
 
     if node.tag in BLOCK_TAGS:
         parts.append('\n\n')
     if node.tail:
-        parts.append(node.tail)
+        parts.append(re.sub(r'\s+', ' ', node.tail))
