@@ -52,6 +52,12 @@ from klon import build_etree, make_all_urls_absolute, tostring
             build_etree('div', ['a', {'name': 'rover'}]),
             build_etree('div', ['a', {'name': 'rover'}]),
         ),
+        (
+            # empty links are replaced by the full base URL, as a browser does
+            'http://example.com/',
+            build_etree('div', ['a', {'href': ''}]),
+            build_etree('div', ['a', {'href': 'http://example.com/'}]),
+        ),
     ]
 )
 def test_make_all_urls_absolute(base_url, etree, expected):
