@@ -3,6 +3,9 @@
 # standards
 import re
 
+# 3rd parties
+import lxml.etree as ET
+
 
 BLOCK_TAGS = frozenset([
     # This list taken from https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
@@ -39,7 +42,7 @@ def extract_text(etree, multiline=False):
 
 
 def _walk(node, parts):
-    if node.tag in NON_CONTENT_TAGS:
+    if node.tag in NON_CONTENT_TAGS or isinstance(node, ET._Comment):  # pylint: disable=protected-access
         return
 
     if node.tag == 'br':
@@ -52,7 +55,7 @@ def _walk(node, parts):
     for child in node:
         _walk(child, parts)
 
-    if node.tag in BLOCK_TAGS:
-        parts.append('\n\n')
-    if node.tail:
-        parts.append(re.sub(r'\s+', ' ', node.tail))
+        if child.tag in BLOCK_TAGS:
+            parts.append('\n\n')
+        if child.tail:
+            parts.append(re.sub(r'\s+', ' ', child.tail))
