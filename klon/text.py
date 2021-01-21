@@ -26,20 +26,18 @@ def extract_text(etree: Optional[ET._Element], multiline: bool = False) -> Optio
         return None
 
     # using a list rather than making _walk() a yielding generator makes it about 5% faster
-    parts = []
+    parts: List[str] = []
     _walk(etree, parts)
     text = ''.join(parts)
 
     if multiline:
-        text = re.sub(
+        return re.sub(
             r'\s+',
             lambda m: '\n\n' if '\n\n' in m.group() else '\n' if '\n' in m.group() else ' ',
             text
         ).strip()
     else:
-        text = normalize_spaces(text)
-
-    return text
+        return normalize_spaces(text)
 
 
 def normalize_spaces(text: Optional[str]) -> Optional[str]:

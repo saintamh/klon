@@ -9,10 +9,13 @@ import setuptools
 LONG_DESCRIPTION = (Path(__file__).parent / 'README.md').read_text('UTF-8')
 
 
-KLON_VERSION = re.search(
+_version_match = re.search(
     r"KLON_VERSION = \'(.+)\'",
     (Path(__file__).parent / 'klon' / 'version.py').read_text('UTF-8'),
-).group(1)
+)
+if not _version_match:
+    raise ValueError('Version not found')
+KLON_VERSION = _version_match.group(1)
 
 
 setuptools.setup(

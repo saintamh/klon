@@ -3,6 +3,7 @@
 disable=
   missing-function-docstring,
   missing-module-docstring,
+  no-else-return,
   protected-access,  # those LXML class names start with underscores
 
 
@@ -54,6 +55,6 @@ method-rgx=[a-z_][a-z0-9_]*$
 variable-rgx=[a-z_][a-z0-9_]*$
 
 
-[TYPECHECK]
+[MASTER]
 
-ignored-modules = lxml
+extension-pkg-whitelist=lxml
