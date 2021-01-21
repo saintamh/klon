@@ -2,6 +2,7 @@
 
 # standards
 import re
+from typing import Dict, List, Tuple
 
 # 3rd parties
 import lxml.etree as ET
@@ -10,7 +11,7 @@ import lxml.etree as ET
 from .utils import is_etree
 
 
-def build_etree(tag, *args):
+def build_etree(tag: str, *args) -> ET._Element:
     if not isinstance(tag, str):
         raise ValueError(f'Tag must be a str, got {tag!r}')
     attrib, args = _compile_attrib(*args)
@@ -20,7 +21,7 @@ def build_etree(tag, *args):
     return element
 
 
-def _compile_attrib(*args):
+def _compile_attrib(*args) -> Tuple[Dict, List]:
     attrib = {}
     if len(args) > 0 and isinstance(args[0], dict):
         attrib.update(args[0])
@@ -28,7 +29,7 @@ def _compile_attrib(*args):
     return attrib, args
 
 
-def _parse_css_style_tags(tag, attrib):
+def _parse_css_style_tags(tag: str, attrib: Dict) -> Tuple[str, Dict]:
     match = re.search(r'^(.+?)(\#|\.)(.+)', tag)
     if match:
         tag, key, value = match.groups()
@@ -37,7 +38,7 @@ def _parse_css_style_tags(tag, attrib):
     return tag, attrib
 
 
-def _append_children(element, args):
+def _append_children(element: ET._Element, args: List) -> None:
     text_anchor = None
     for child in args:
         if child in (None, (), []):

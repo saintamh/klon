@@ -16,12 +16,12 @@ import pytest
 from klon import build_etree, tostring
 
 
-def check(element, tag, attrib={}, children=[], text=None, tail=None):
+def check(element, tag, attrib=None, children=None, text=None, tail=None):
     assert element.tag == tag
-    assert element.attrib == attrib
+    assert element.attrib == (attrib or {})
     assert element.text == text
-    assert len(element) == len(children)
-    for child, child_definition in zip(element, children):
+    assert len(element) == len(children or [])
+    for child, child_definition in zip(element, children or []):
         check(child, **child_definition)
     assert element.tail == tail
 

@@ -5,10 +5,7 @@ import re
 from typing import List, Optional
 
 # 3rd parties
-import lxml.etree
-
-Comment = lxml.etree._Comment  # pylint: disable=protected-access
-Element = lxml.etree._Element  # pylint: disable=protected-access
+import lxml.etree as ET
 
 
 BLOCK_TAGS = frozenset([
@@ -24,7 +21,7 @@ NON_CONTENT_TAGS = frozenset([
 ])
 
 
-def extract_text(etree: Optional[Element], multiline: bool = False) -> Optional[str]:
+def extract_text(etree: Optional[ET._Element], multiline: bool = False) -> Optional[str]:
     if etree is None:
         return None
 
@@ -49,8 +46,8 @@ def normalize_spaces(text: Optional[str]) -> Optional[str]:
     return text and re.sub(r'\s+', ' ', text).strip()
 
 
-def _walk(node: Element, parts: List[str]) -> None:
-    if node.tag in NON_CONTENT_TAGS or isinstance(node, Comment):
+def _walk(node: ET._Element, parts: List[str]) -> None:
+    if node.tag in NON_CONTENT_TAGS or isinstance(node, ET._Comment):
         return
 
     if node.tag == 'br':

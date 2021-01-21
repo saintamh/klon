@@ -4,19 +4,17 @@
 from typing import Any
 
 # 3rd parties
-import lxml.etree
-
-Element = lxml.etree._Element  # pylint: disable=protected-access
+import lxml.etree as ET
 
 
-def detach(node: Element) -> Element:
+def detach(node: ET._Element) -> ET._Element:
     node.getparent().remove(node)
     return node
 
 
 def is_etree(obj: Any) -> bool:
-    return isinstance(obj, Element)
+    return isinstance(obj, ET._Element)
 
 
-def tostring(etree: Element, **kwargs):
-    return lxml.etree.tostring(etree, **kwargs)
+def tostring(etree: ET._Element, **kwargs):
+    return ET.tostring(etree, **kwargs)
