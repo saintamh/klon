@@ -1,12 +1,22 @@
 #!/usr/bin/env python3
 
+# standards
+from typing import Any
+
 # 3rd parties
-import lxml.etree as ET
+import lxml.etree
+
+Element = lxml.etree._Element  # pylint: disable=protected-access
 
 
-def is_etree(obj):
-    return isinstance(obj, ET._Element)  # pylint: disable=protected-access
+def detach(node: Element) -> Element:
+    node.getparent().remove(node)
+    return node
 
 
-def tostring(etree, **kwargs):
-    return ET.tostring(etree, **kwargs)
+def is_etree(obj: Any) -> bool:
+    return isinstance(obj, Element)
+
+
+def tostring(etree: Element, **kwargs):
+    return lxml.etree.tostring(etree, **kwargs)
