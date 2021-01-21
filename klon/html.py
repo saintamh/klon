@@ -43,7 +43,6 @@ def make_all_urls_absolute(base_url: str, etree: ET._Element) -> None:
     """
     Modify all links in the given HTML etree to be absolute URLs, using the given `base_url` to resolve relative URLs.
     """
-    print(XPATH_TAGS_WITH_URL_ATTRIBUTES)
     for node in etree.xpath(XPATH_TAGS_WITH_URL_ATTRIBUTES):
         attr = TAGS_WITH_URL_ATTRIBUTES[node.tag]
         value = node.get(attr)
