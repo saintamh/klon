@@ -8,7 +8,7 @@ from typing import Any, Dict, Tuple
 import lxml.etree as ET
 
 # klon
-from .utils import is_etree
+from .utils import is_element
 
 
 def build_etree(tag: str, *args) -> ET._Element:
@@ -49,7 +49,7 @@ def _append_children(element: ET._Element, args: Tuple[Any, ...]) -> None:
             else:
                 text_anchor.tail = (text_anchor.tail or '') + child
         else:
-            if not is_etree(child):
+            if not is_element(child):
                 child = build_etree(*child)
             element.append(child)
             text_anchor = child

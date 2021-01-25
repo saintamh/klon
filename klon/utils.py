@@ -1,20 +1,30 @@
 #!/usr/bin/env python3
 
 # standards
-from typing import Any
+from typing import Any, Union
 
 # 3rd parties
 import lxml.etree as ET
 
 
-def detach(node: ET._Element) -> ET._Element:
+Element = Union[ET._Element]  # this is exported, and can be used for type annotations
+
+
+def detach(node: Element, reattach_tail: bool = True) -> Element:
+    if reattach_tail and node.tail:
+        prev = node.getprevious()
+        if prev is not None:
+            prev.text = (prev.text or '') + node.tail
+        else:
+            parent = node.getparent()
+            parent.text = (parent.text or '') + node.tail
     node.getparent().remove(node)
     return node
 
 
-def is_etree(obj: Any) -> bool:
+def is_element(obj: Any) -> bool:
     return isinstance(obj, ET._Element)
 
 
-def tostring(etree: ET._Element, **kwargs):
+def tostring(etree: Element, **kwargs):
     return ET.tostring(etree, **kwargs)
