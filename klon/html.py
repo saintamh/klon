@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # standards
+import re
 from urllib.parse import urljoin
 
 # 3rd parties
@@ -50,3 +51,10 @@ def make_all_urls_absolute(base_url: str, etree: ET._Element) -> None:
             absolute_url = urljoin(base_url, value)
             if absolute_url != value:
                 node.set(attr, absolute_url)
+
+
+def extract_js_str(element: ET._Element) -> str:
+    return '\n\n'.join(
+        re.sub(r'^\s*<!--', '', re.sub(r'-->\s*$', '', script_str))
+        for script_str in element.xpath('.//script/text()')
+    )
