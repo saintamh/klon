@@ -24,6 +24,8 @@ NON_CONTENT_TAGS = frozenset([
 def extract_text(etree: Optional[ET._Element], multiline: bool = False) -> Optional[str]:
     if etree is None:
         return None
+    if isinstance(etree, ET._ElementUnicodeResult):
+        return normalize_spaces(etree)
 
     # using a list rather than making _walk() a yielding generator makes it about 5% faster
     parts: List[str] = []

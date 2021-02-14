@@ -26,5 +26,8 @@ def is_element(obj: Any) -> bool:
     return isinstance(obj, ET._Element)
 
 
-def tostring(etree: Element, **kwargs):
-    return ET.tostring(etree, **kwargs)
+def tostring(etree: Union[Element, ET._ElementUnicodeResult], **kwargs):
+    if isinstance(etree, ET._ElementUnicodeResult):
+        return str(etree)
+    else:
+        return ET.tostring(etree, **kwargs)
