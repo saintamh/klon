@@ -21,7 +21,7 @@ NON_CONTENT_TAGS = frozenset([
 ])
 
 
-def extract_text(etree: Optional[ET._Element], multiline: bool = False) -> Optional[str]:
+def extract_text(etree: Optional[ET._Element], *, multiline: bool = False) -> Optional[str]:
     if etree is None:
         return None
     if isinstance(etree, ET._ElementUnicodeResult):

@@ -10,7 +10,7 @@ import lxml.etree as ET
 Element = Union[ET._Element]  # this is exported, and can be used for type annotations
 
 
-def detach(node: Element, reattach_tail: bool = True) -> Element:
+def detach(node: Element, *, reattach_tail: bool = True) -> Element:
     if reattach_tail and node.tail:
         prev = node.getprevious()
         if prev is not None:
