@@ -30,6 +30,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         'lxml>=4,<5',
+        'lxml-stubs>=0.1,<0.2',  # so that users can type-check their calls to Klon
     ],
     classifiers=[
         'License :: OSI Approved :: MIT License',
