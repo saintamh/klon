@@ -23,7 +23,7 @@ setuptools.setup(
     version=KLON_VERSION,
     author='Hervé Saint-Amand',
     author_email='klon@saintamh.org',
-    description='Utilities for building ElementTrees',
+    description='Utilities for building and manipulating ElementTrees',
     long_description=LONG_DESCRIPTION,
     long_description_content_type='text/markdown',
     url='https://github.com/saintamh/klon/',
