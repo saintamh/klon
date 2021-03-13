@@ -28,6 +28,7 @@ setuptools.setup(
     long_description_content_type='text/markdown',
     url='https://github.com/saintamh/klon/',
     packages=setuptools.find_packages(),
+    package_data={'klon': ['py.typed']},
     install_requires=[
         'lxml>=4,<5',
         'lxml-stubs>=0.1,<0.2',  # so that users can type-check their calls to Klon
@@ -39,4 +40,5 @@ setuptools.setup(
         'Topic :: Text Processing :: Markup :: HTML',
         'Topic :: Text Processing :: Markup :: XML',
     ],
+    zip_safe=False,  # https://mypy.readthedocs.io/en/latest/installed_packages.html#creating-pep-561-compatible-packages
 )
