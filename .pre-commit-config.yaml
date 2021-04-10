@@ -16,3 +16,4 @@ repos:
     entry: mypy
     language: python
     types: [python]
+    args: ['--show-error-codes']

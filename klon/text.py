@@ -2,7 +2,7 @@
 
 # standards
 import re
-from typing import List, Optional
+from typing import List, no_type_check
 
 # 3rd parties
 import lxml.etree as ET
@@ -21,9 +21,7 @@ NON_CONTENT_TAGS = frozenset([
 ])
 
 
-def extract_text(etree: Optional[ET._Element], *, multiline: bool = False) -> Optional[str]:
-    if etree is None:
-        return None
+def extract_text(etree: ET._Element, *, multiline: bool = False) -> str:
     if isinstance(etree, ET._ElementUnicodeResult):
         return normalize_spaces(etree)
 
@@ -42,10 +40,7 @@ def extract_text(etree: Optional[ET._Element], *, multiline: bool = False) -> Op
         return normalize_spaces(text)
 
 
-def normalize_spaces(text: Optional[str]) -> Optional[str]:
-    return text and re.sub(r'\s+', ' ', text).strip()
-
-
+@no_type_check  # until lxml-stubs improves
 def _walk(node: ET._Element, parts: List[str]) -> None:
     if node.tag in NON_CONTENT_TAGS or isinstance(node, ET._Comment):
         return
@@ -64,3 +59,11 @@ def _walk(node: ET._Element, parts: List[str]) -> None:
             parts.append('\n\n')
         if child.tail:
             parts.append(re.sub(r'\s+', ' ', child.tail))
+
+
+def extract_multiline_text(etree: ET._Element) -> str:
+    return extract_text(etree, multiline=True)
+
+
+def normalize_spaces(text: str) -> str:
+    return re.sub(r'\s+', ' ', text).strip()

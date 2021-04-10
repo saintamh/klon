@@ -2,7 +2,7 @@
 
 # standards
 import re
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, Tuple, no_type_check
 
 # 3rd parties
 import lxml.etree as ET
@@ -38,6 +38,7 @@ def _parse_css_style_tags(tag: str, attrib: Dict) -> Tuple[str, Dict]:
     return tag, attrib
 
 
+@no_type_check  # until lxml-stubs improves
 def _append_children(element: ET._Element, args: Tuple[Any, ...]) -> None:
     text_anchor = None
     for child in args:
