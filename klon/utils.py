@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # standards
-from typing import Any, Union, no_type_check
+from typing import Any, Type, Union, no_type_check, overload
 
 # 3rd parties
 import lxml.etree as ET
@@ -30,8 +30,16 @@ def is_element(obj: Any) -> bool:
     return isinstance(obj, ET._Element)
 
 
-def tostring(etree: Union[Element, ET._ElementUnicodeResult], **kwargs):
+@overload
+def tostring(etree: Union[Element, ET._ElementUnicodeResult], encoding: Type[str] = str, **kwargs) -> str:
+    ...
+@overload
+def tostring(etree: Union[Element, ET._ElementUnicodeResult], encoding: str, **kwargs) -> bytes:
+    ...
+def tostring(etree, encoding=str, **kwargs):
     if isinstance(etree, ET._ElementUnicodeResult):
-        return str(etree)
-    else:
-        return ET.tostring(etree, **kwargs)
+        text = str(etree)
+        if encoding is not str:
+            return text.encode(encoding)
+        return text
+    return ET.tostring(etree, encoding=encoding, **kwargs)
