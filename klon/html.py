@@ -37,8 +37,9 @@ XPATH_TAGS_WITH_URL_ATTRIBUTES = '//*[%s]' % ' or '.join(
 )
 
 
-def parse_html_etree(html_str: str) -> ET._Element:
-    return ET.HTML(html_str)
+def parse_html_etree(html_str: str, remove_comments: bool = False) -> ET._Element:
+    parser = ET.HTMLParser(remove_comments=remove_comments)
+    return ET.HTML(html_str, parser)
 
 
 @no_type_check  # until lxml-stubs improves
