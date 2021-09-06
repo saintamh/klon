@@ -17,7 +17,7 @@ BLOCK_TAGS = frozenset([
 
 
 NON_CONTENT_TAGS = frozenset([
-    'head', 'script', 'style',
+    'head', 'script', 'style', 'svg',
 ])
 
 
