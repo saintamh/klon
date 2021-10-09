@@ -38,6 +38,10 @@ XPATH_TAGS_WITH_URL_ATTRIBUTES = '//*[%s]' % ' or '.join(
 
 
 def parse_html_etree(html_str: str, remove_comments: bool = False) -> ET._Element:
+
+    # It's rare for HTML docs to contain an XML declaration, but when they do, lxml throws an exception, so remove them
+    html_str = re.sub(r'^<\?xml[^>]+\?>', '', html_str)
+
     parser = ET.HTMLParser(remove_comments=remove_comments)
     return ET.HTML(html_str, parser)
 
