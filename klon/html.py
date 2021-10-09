@@ -10,25 +10,25 @@ import lxml.etree as ET
 
 
 TAGS_WITH_URL_ATTRIBUTES = {
-    'a': 'href',
-    'area': 'href',
-    'audio': 'src',
-    'base': 'href',
-    'blockquote': 'cite',
-    'del': 'cite',
-    'embed': 'src',
-    'form': 'action',
-    'frame': 'src',
-    'iframe': 'src',
-    'img': 'src',
-    'input': 'src',
-    'ins': 'cite',
-    'link': 'href',
-    'object': 'data',
-    'script': 'src',
-    'source': 'src',
-    'track': 'src',
-    'video': 'src',
+    'a': ['href'],
+    'area': ['href'],
+    'audio': ['src'],
+    'base': ['href'],
+    'blockquote': ['cite'],
+    'del': ['cite'],
+    'embed': ['src'],
+    'form': ['action'],
+    'frame': ['src'],
+    'iframe': ['src'],
+    'img': ['src', 'srcset'],
+    'input': ['src'],
+    'ins': ['cite'],
+    'link': ['href'],
+    'object': ['data'],
+    'script': ['src'],
+    'source': ['src', 'srcset'],
+    'track': ['src'],
+    'video': ['src'],
 }
 
 
@@ -52,12 +52,19 @@ def make_all_urls_absolute(base_url: str, etree: ET._Element) -> None:
     Modify all links in the given HTML etree to be absolute URLs, using the given `base_url` to resolve relative URLs.
     """
     for node in etree.xpath(XPATH_TAGS_WITH_URL_ATTRIBUTES):  # type: ignore[union-attr]
-        attr = TAGS_WITH_URL_ATTRIBUTES[node.tag]
-        value = node.get(attr)
-        if value is not None:
-            absolute_url = urljoin(base_url, value)
-            if absolute_url != value:
-                node.set(attr, absolute_url)
+        for attr in TAGS_WITH_URL_ATTRIBUTES[node.tag]:
+            value = node.get(attr)
+            if value is not None:
+                if attr == 'srcset':
+                    new_value = re.sub(
+                        r'((?:^|,)\s*)(\S+)',
+                        lambda m: m[1] + urljoin(base_url, m[2]),
+                        value,
+                    )
+                else:
+                    new_value = urljoin(base_url, value)
+                if new_value != value:
+                    node.set(attr, new_value)
 
 
 @no_type_check
