@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <form action="https://httpbin.org/get">
+      <input value="no-name">
+
+      <input name="no-type-no-value">
+      <input name="no-type-empty-value" value="">
+      <input name="no-type-with-value" value="v">
+
+      <input type="text" name="text-type-no-value">
+      <input type="text" name="text-type-empty-value" value="">
+      <input type="text" name="text-type-with-value" value="v">
+      <input type="text" name="text-type-repeated-value" value="repeat1">
+      <input type="text" name="text-type-repeated-value" value="repeat2">
+
+      <input type="password" name="password-type-no-value">
+      <input type="password" name="password-type-empty-value" value="">
+      <input type="password" name="password-type-with-value" value="v">
+      <input type="password" name="password-type-repeated-value" value="repeat1">
+      <input type="password" name="password-type-repeated-value" value="repeat2">
+
+      <input type="madeuptype" name="madeuptype-type-no-value">
+      <input type="madeuptype" name="madeuptype-type-empty-value" value="">
+      <input type="madeuptype" name="madeuptype-type-with-value" value="v">
+      <input type="madeuptype" name="madeuptype-type-repeated-value" value="repeat1">
+      <input type="madeuptype" name="madeuptype-type-repeated-value" value="repeat2">
+
+      <input type="checkbox" name="checkbox-no-value-not-checked">
+
+      <input type="checkbox" name="checkbox-no-value-checked" checked>
+
+      <input type="checkbox" name="checkbox-one-value-not-checked" value="a">
+      <input type="checkbox" name="checkbox-one-value-checked" checked value="a">
+
+      <input type="checkbox" name="checkbox-two-values-not-checked" value="a">
+      <input type="checkbox" name="checkbox-two-values-not-checked" value="b">
+
+      <input type="checkbox" name="checkbox-two-values-one-checked" checked value="a">
+      <input type="checkbox" name="checkbox-two-values-one-checked" value="b">
+
+      <input type="checkbox" name="checkbox-two-checked-values" checked value="a">
+      <input type="checkbox" name="checkbox-two-checked-values" checked value="b">
+
+      <input type="radio" name="radio-no-value-not-checked">
+
+      <input type="radio" name="radio-no-value-checked" checked>
+
+      <input type="radio" name="radio-one-value-not-checked" value="a">
+      <input type="radio" name="radio-one-value-checked" checked value="a">
+
+      <input type="radio" name="radio-two-values-not-checked" value="a">
+      <input type="radio" name="radio-two-values-not-checked" value="b">
+
+      <input type="radio" name="radio-two-values-one-checked" checked value="a">
+      <input type="radio" name="radio-two-values-one-checked" value="b">
+
+      <input type="radio" name="radio-two-checked-values" checked value="a">
+      <input type="radio" name="radio-two-checked-values" checked value="b">
+
+      <select name="simple-select-no-options"></select>
+      <select name="simple-select-no-selected-option">
+        <option value="one">
+        <option value="two">
+      </select>
+      <select name="simple-select-one-selected-option">
+        <option value="one" selected>
+        <option value="two">
+      </select>
+      <select name="simple-select-two-selected-options">
+        <option value="one" selected>
+        <option value="two" selected>
+      </select>
+      <select name="simple-select-selected-option-has-no-value">
+        <option value="one">
+        <option selected>
+      </select>
+
+      <select name="grouped-select-no-selected-option">
+        <optgroup><option value="one"></optgroup>
+        <optgroup><option value="two"></optgroup>
+      </select>
+      <select name="grouped-select-one-selected-option">
+        <optgroup><option value="one" selected></optgroup>
+        <optgroup><option value="two"></optgroup>
+      </select>
+      <select name="grouped-select-two-selected-options">
+        <optgroup><option value="one" selected></optgroup>
+        <optgroup><option value="two" selected></optgroup>
+      </select>
+      <select name="grouped-select-selected-option-has-no-value">
+        <optgroup><option value="one"></optgroup>
+        <optgroup><option selected></optgroup>
+      </select>
+
+      <select multiple name="multiple-select-no-options"></select>
+      <select multiple name="multiple-select-no-selected-option">
+        <option value="one">
+        <option value="two">
+      </select>
+      <select multiple name="multiple-select-one-selected-option">
+        <option value="one" selected>
+        <option value="two">
+      </select>
+      <select multiple name="multiple-select-two-selected-options">
+        <option value="one" selected>
+        <option value="two" selected>
+      </select>
+      <select name="multiple-select-selected-option-has-no-value">
+        <option value="one">
+        <option selected>
+      </select>
+
+      <input type="button" name="button-no-value">
+      <input type="button" name="button-empty-value" value="">
+      <input type="button" name="button-with-value" value="a">
+      <input type="button" name="button-type-repeated-value" value="repeat1">
+      <input type="button" name="button-type-repeated-value" value="repeat2">
+
+      <input type="submit" name="submit-no-value">
+      <input type="submit" name="submit-empty-value" value="">
+      <input type="submit" name="submit-with-value" value="a">
+      <input type="submit" name="submit-type-repeated-value" value="repeat1">
+      <input type="submit" name="submit-type-repeated-value" value="repeat2">
+
+      <input type="image" name="image-no-value">
+      <input type="image" name="image-empty-value" value="">
+      <input type="image" name="image-with-value" value="a">
+      <input type="image" name="image-type-repeated-value" value="repeat1">
+      <input type="image" name="image-type-repeated-value" value="repeat2">
+
+      <input type="reset" name="reset-no-value">
+      <input type="reset" name="reset-empty-value" value="">
+      <input type="reset" name="reset-with-value" value="a">
+      <input type="reset" name="reset-type-repeated-value" value="repeat1">
+      <input type="reset" name="reset-type-repeated-value" value="repeat2">
+    </form>
+
+    <!--
+        This URL was obtained by:
+        - opening this file in Firefox
+        - submitting the form
+        - copying the query part of the resulting URL
+        - removing the "submit" input, which we deliberately don't parse here
+      -->
+    <a href="?no-type-no-value=&no-type-empty-value=&no-type-with-value=v&text-type-no-value=&text-type-empty-value=&text-type-with-value=v&text-type-repeated-value=repeat1&text-type-repeated-value=repeat2&password-type-no-value=&password-type-empty-value=&password-type-with-value=v&password-type-repeated-value=repeat1&password-type-repeated-value=repeat2&madeuptype-type-no-value=&madeuptype-type-empty-value=&madeuptype-type-with-value=v&madeuptype-type-repeated-value=repeat1&madeuptype-type-repeated-value=repeat2&checkbox-no-value-checked=on&checkbox-one-value-checked=a&checkbox-two-values-one-checked=a&checkbox-two-checked-values=a&checkbox-two-checked-values=b&radio-no-value-checked=on&radio-one-value-checked=a&radio-two-values-one-checked=a&radio-two-checked-values=b&simple-select-no-selected-option=one&simple-select-one-selected-option=one&simple-select-two-selected-options=two&simple-select-selected-option-has-no-value=&grouped-select-no-selected-option=one&grouped-select-one-selected-option=one&grouped-select-two-selected-options=two&grouped-select-selected-option-has-no-value=&multiple-select-one-selected-option=one&multiple-select-two-selected-options=one&multiple-select-two-selected-options=two&multiple-select-selected-option-has-no-value="></a>
+  </body>
+</html>

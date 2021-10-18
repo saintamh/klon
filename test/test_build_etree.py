@@ -1,8 +1,7 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
-#----------------------------------------------------------------------------------------------------------------------------------
-# includes
+# it's the pytest way, pylint: disable=redefined-outer-name
+
 
 # 2+3 compat
 from __future__ import absolute_import, division, print_function, unicode_literals
@@ -14,30 +13,24 @@ import re
 import pytest
 
 # klon
-from klon import Klon
-from klon.lxml import LxmlKlon
-
-#----------------------------------------------------------------------------------------------------------------------------------
-
-def parametrize_implementations(body):
-    parametrize = pytest.mark.parametrize('klon', [Klon, LxmlKlon])
-    return parametrize(body)
+from klon import build_etree, tostring
 
 
-def check(element, tag, attrib={}, children=[], text=None, tail=None):
+def check(element, tag, attrib=None, children=None, text=None, tail=None):
     assert element.tag == tag
-    assert element.attrib == attrib
+    assert element.attrib == (attrib or {})
     assert element.text == text
-    assert len(element) == len(children)
-    for child, child_definition in zip(element, children):
+    assert len(element) == len(children or [])
+    for child, child_definition in zip(element, children or []):
         check(child, **child_definition)
     assert element.tail == tail
 
 
-def check_str(klon, element, expected_str):
-    generated_bytes = klon.tostring(element, encoding='UTF-8')
+def check_str(element, expected_str):
+    generated_bytes = tostring(element, encoding='UTF-8')
     generated_str = generated_bytes.decode('UTF-8')
     assert _normalise_str(generated_str) == _normalise_str(expected_str)
+
 
 def _normalise_str(text):
     # Smoothe over the slight cosmetic differences btw the output of xml.etree.ElementTree.tostring and lxml.etree.tostring
@@ -45,117 +38,97 @@ def _normalise_str(text):
     text = re.sub(r' (?=/>)', '', text)
     return text
 
-#----------------------------------------------------------------------------------------------------------------------------------
 
-@parametrize_implementations
-def test_build_empty_node(klon):
-    element = klon.build_etree('mynode')
+def test_build_empty_node():
+    element = build_etree('mynode')
     check(element, 'mynode')
-    check_str(klon, element, '<mynode />')
+    check_str(element, '<mynode />')
 
 
-@parametrize_implementations
-def test_build_attrib_from_dict(klon):
-    element = klon.build_etree('mynode', {'a': '1'})
+def test_build_attrib_from_dict():
+    element = build_etree('mynode', {'a': '1'})
     check(element, 'mynode', {'a': '1'})
-    check_str(klon, element, '<mynode a="1" />')
+    check_str(element, '<mynode a="1" />')
 
-#----------------------------------------------------------------------------------------------------------------------------------
 
-@parametrize_implementations
-def test_css_style_id(klon):
-    element = klon.build_etree('mynode#test')
+def test_css_style_id():
+    element = build_etree('mynode#test')
     check(element, 'mynode', {'id': 'test'})
-    check_str(klon, element, '<mynode id="test" />')
+    check_str(element, '<mynode id="test" />')
 
 
-@parametrize_implementations
-def test_css_style_class(klon):
-    element = klon.build_etree('mynode.test')
+def test_css_style_class():
+    element = build_etree('mynode.test')
     check(element, 'mynode', {'class': 'test'})
-    check_str(klon, element, '<mynode class="test" />')
+    check_str(element, '<mynode class="test" />')
 
-#----------------------------------------------------------------------------------------------------------------------------------
 
-@parametrize_implementations
-def test_build_node_with_text(klon):
-    element = klon.build_etree('mynode', 'Text')
+def test_build_node_with_text():
+    element = build_etree('mynode', 'Text')
     check(element, 'mynode', text='Text')
-    check_str(klon, element, '<mynode>Text</mynode>')
+    check_str(element, '<mynode>Text</mynode>')
 
 
-@parametrize_implementations
-def test_build_node_with_multiple_text(klon):
-    element = klon.build_etree('mynode', 'Te', 'xt')
+def test_build_node_with_multiple_text():
+    element = build_etree('mynode', 'Te', 'xt')
     check(element, 'mynode', text='Text')
-    check_str(klon, element, '<mynode>Text</mynode>')
+    check_str(element, '<mynode>Text</mynode>')
 
 
-@parametrize_implementations
-def test_build_node_with_text_and_attrib(klon):
-    element = klon.build_etree('mynode', {'a': '1'}, 'Te', 'xt')
+def test_build_node_with_text_and_attrib():
+    element = build_etree('mynode', {'a': '1'}, 'Te', 'xt')
     check(element, 'mynode', attrib={'a': '1'}, text='Text')
-    check_str(klon, element, '<mynode a="1">Text</mynode>')
+    check_str(element, '<mynode a="1">Text</mynode>')
 
-#----------------------------------------------------------------------------------------------------------------------------------
 
-@parametrize_implementations
-def test_node_with_children(klon):
-    element = klon.build_etree('mynode', ['mychild'])
+def test_node_with_children():
+    element = build_etree('mynode', ['mychild'])
     check(element, 'mynode', children=[{'tag': 'mychild'}])
-    check_str(klon, element, '<mynode><mychild /></mynode>')
+    check_str(element, '<mynode><mychild /></mynode>')
 
 
-@parametrize_implementations
-def test_node_with_children_attribs(klon):
-    element = klon.build_etree('mynode', ['mychild', {'a': '1'}])
+def test_node_with_children_attribs():
+    element = build_etree('mynode', ['mychild', {'a': '1'}])
     check(element, 'mynode', children=[{'tag': 'mychild', 'attrib': {'a': '1'}}])
-    check_str(klon, element, '<mynode><mychild a="1" /></mynode>')
+    check_str(element, '<mynode><mychild a="1" /></mynode>')
 
 
-@parametrize_implementations
-def test_node_with_children_text(klon):
-    element = klon.build_etree('mynode', ['mychild', {'a': '1'}, 'Text'])
+def test_node_with_children_text():
+    element = build_etree('mynode', ['mychild', {'a': '1'}, 'Text'])
     check(element, 'mynode', children=[{'tag': 'mychild', 'attrib': {'a': '1'}, 'text': 'Text'}])
-    check_str(klon, element, '<mynode><mychild a="1">Text</mychild></mynode>')
+    check_str(element, '<mynode><mychild a="1">Text</mychild></mynode>')
 
 
-@parametrize_implementations
-def test_node_with_children_tail(klon):
-    element = klon.build_etree('mynode', ['mychild'], 'Tail')
+def test_node_with_children_tail():
+    element = build_etree('mynode', ['mychild'], 'Tail')
     check(element, 'mynode', children=[{'tag': 'mychild', 'tail': 'Tail'}])
-    check_str(klon, element, '<mynode><mychild />Tail</mynode>')
+    check_str(element, '<mynode><mychild />Tail</mynode>')
 
 
-@parametrize_implementations
-def test_node_with_prebuilt_child(klon):
-    child = klon.build_etree('mychild')
-    element = klon.build_etree('mynode', child)
+def test_node_with_prebuilt_child():
+    child = build_etree('mychild')
+    element = build_etree('mynode', child)
     check(element, 'mynode', children=[{'tag': 'mychild'}])
-    check_str(klon, element, '<mynode><mychild /></mynode>')
+    check_str(element, '<mynode><mychild /></mynode>')
 
-#----------------------------------------------------------------------------------------------------------------------------------
 
-@parametrize_implementations
-def test_non_str_tag(klon):
+def test_non_str_tag():
     with pytest.raises(ValueError):
-        klon.build_etree(object(), {'a': '1'})
+        build_etree(object(), {'a': '1'})
 
-@parametrize_implementations
-def test_byte_tag(klon):
+
+def test_byte_tag():
     with pytest.raises(ValueError):
-        klon.build_etree(b'mytag', {'a': '1'})
+        build_etree(b'mytag', {'a': '1'})
 
-@parametrize_implementations
-def test_empty_children_array_are_noop(klon):
-    element = klon.build_etree('mynode', ['mychild', 'a', [], 'b'], [], 'c')
+
+def test_empty_children_array_are_noop():
+    element = build_etree('mynode', ['mychild', 'a', [], 'b'], [], 'c')
     check(element, 'mynode', children=[{'tag': 'mychild', 'text': 'ab', 'tail': 'c'}])
-    check_str(klon, element, '<mynode><mychild>ab</mychild>c</mynode>')
+    check_str(element, '<mynode><mychild>ab</mychild>c</mynode>')
 
-@parametrize_implementations
-def test_none_values_are_noop(klon):
-    element = klon.build_etree('mynode', ['mychild', 'a', None, 'b'], None, 'c')
+
+def test_none_values_are_noop():
+    element = build_etree('mynode', ['mychild', 'a', None, 'b'], None, 'c')
     check(element, 'mynode', children=[{'tag': 'mychild', 'text': 'ab', 'tail': 'c'}])
-    check_str(klon, element, '<mynode><mychild>ab</mychild>c</mynode>')
-
-#----------------------------------------------------------------------------------------------------------------------------------
+    check_str(element, '<mynode><mychild>ab</mychild>c</mynode>')

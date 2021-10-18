@@ -1,17 +1,8 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
-#----------------------------------------------------------------------------------------------------------------------------------
-# includes
-
-# 2+3 compat
-from __future__ import absolute_import, division, print_function, unicode_literals
-
-# klon
-from .klon import Klon
-
-#----------------------------------------------------------------------------------------------------------------------------------
-
-build_etree = Klon.build_etree  # it's a function, pylint: disable=invalid-name
-
-#----------------------------------------------------------------------------------------------------------------------------------
+from .build import build_etree
+from .forms import parse_form
+from .html import extract_js_str, make_all_urls_absolute, parse_html_etree
+from .text import extract_multiline_text, extract_text, normalize_spaces
+from .utils import Element, detach, is_element, tostring
+from .xml import parse_xml_etree
