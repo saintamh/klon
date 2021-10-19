@@ -6,8 +6,13 @@ import re
 import setuptools
 
 
-LONG_DESCRIPTION = (Path(__file__).parent / 'README.md').read_text('UTF-8')
-
+README_FILE = Path(__file__).parent / 'README.md'
+LONG_DESCRIPTION = README_FILE.read_text('UTF-8')
+LONG_DESCRIPTION = re.sub(
+    r'(?<=\]\()(?!http)',
+    'https://github.com/saintamh/klon/tree/master/',
+    LONG_DESCRIPTION,
+)
 
 _version_match = re.search(
     r"KLON_VERSION = \'(.+)\'",
