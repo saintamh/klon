@@ -41,4 +41,4 @@ def tostring(etree, encoding=str, **kwargs):
         if encoding is not str:
             return text.encode(encoding)
         return text
-    return ET.tostring(etree, encoding=encoding, **kwargs)
+    return ET.tostring(etree, encoding=encoding, **kwargs).strip()
