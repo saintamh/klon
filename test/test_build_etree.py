@@ -29,10 +29,10 @@ def check(element, tag, attrib=None, children=None, text=None, tail=None):
 def check_str(element, expected_str):
     generated_bytes = tostring(element, encoding='UTF-8')
     generated_str = generated_bytes.decode('UTF-8')
-    assert _normalise_str(generated_str) == _normalise_str(expected_str)
+    assert _normalize_str(generated_str) == _normalize_str(expected_str)
 
 
-def _normalise_str(text):
+def _normalize_str(text):
     # Smoothe over the slight cosmetic differences btw the output of xml.etree.ElementTree.tostring and lxml.etree.tostring
     text = re.sub(r'^<\?xml[^>]*>\s*', '', text)
     text = re.sub(r' (?=/>)', '', text)

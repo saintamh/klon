@@ -78,10 +78,10 @@ Source code: [klon/text.py](klon/text.py)
 
 Extracts all text from the given node and its descendants.
 
-By default, all contiguous whitespace is normalised to a single ASCII space,
+By default, all contiguous whitespace is normalized to a single ASCII space,
 and so the output will always be a single line of text. However if
 `multiline=True` is specified, paragraph-breaking tags are preserved, in the
-same way that a web browser would. Other whitespace is still normalised, but
+same way that a web browser would. Other whitespace is still normalized, but
 the output now contains both ASCII spaces and ASCII newlines.
 
 ```python
