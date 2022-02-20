@@ -28,7 +28,7 @@ TAGS_WITH_URL_ATTRIBUTES = {
     'script': ['src'],
     'source': ['src', 'srcset'],
     'track': ['src'],
-    'video': ['src'],
+    'video': ['poster', 'src'],
 }
 
 
