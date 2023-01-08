@@ -18,7 +18,7 @@ def detach(node: Element, *, reattach_tail: bool = True) -> Element:
     if reattach_tail and node.tail:
         prev = node.getprevious()
         if prev is not None:
-            prev.text = (prev.text + node.tail) if prev.text else node.tail
+            prev.tail = (prev.tail + node.tail) if prev.tail else node.tail
         else:
             parent.text = (parent.text + node.tail) if parent.text else node.tail
     parent.remove(node)
