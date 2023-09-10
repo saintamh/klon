@@ -21,6 +21,13 @@ NON_CONTENT_TAGS = frozenset([
 ])
 
 
+PREFORMATTED_TAGS = frozenset([
+    # Inside these tags, newlines will be honoured (up to 2). Horizontal space is still squished, unlike in a browser. That could
+    # be implemented but `extract_text` would become significantly more involved, and it didn't seem to be worth the complexity.
+    'pre', 'textarea',
+])
+
+
 def extract_text(etree: ET._Element, *, multiline: bool = False) -> str:
     if isinstance(etree, ET._ElementUnicodeResult):
         return normalize_spaces(etree)
@@ -41,7 +48,7 @@ def extract_text(etree: ET._Element, *, multiline: bool = False) -> str:
 
 
 @no_type_check  # until lxml-stubs improves
-def _walk(node: ET._Element, parts: List[str]) -> None:
+def _walk(node: ET._Element, parts: List[str], preformatted: bool = False) -> None:
     if node.tag in NON_CONTENT_TAGS or isinstance(node, ET._Comment):
         return
 
@@ -50,15 +57,18 @@ def _walk(node: ET._Element, parts: List[str]) -> None:
     elif node.tag in BLOCK_TAGS:
         parts.append('\n\n')
 
+    if node.tag in PREFORMATTED_TAGS:
+        preformatted = True
+
     if node.text:
-        parts.append(re.sub(r'\s+', ' ', node.text))
+        parts.append(node.text if preformatted else re.sub(r'\s+', ' ', node.text))
     for child in node:
         _walk(child, parts)
 
         if child.tag in BLOCK_TAGS:
             parts.append('\n\n')
         if child.tail:
-            parts.append(re.sub(r'\s+', ' ', child.tail))
+            parts.append(child.tail if preformatted else re.sub(r'\s+', ' ', child.tail))
 
 
 def extract_multiline_text(etree: ET._Element) -> str:
