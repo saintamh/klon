@@ -104,6 +104,17 @@ def test_make_all_urls_absolute(base_url, etree, expected):
             '<?xml version="1.0" encoding="UTF-8" ?>',
             ValueError,
         ),
+        (
+            # a greater-than sign inside an attribute is parsed correctly
+            '<button onclick="call(() => func())" > label </button>',
+            ["html", ["body", ["button", {"onclick": "call(() => func())"}, "label"]]],
+        ),
+        # This one is failing because LXML doesn't parse this real-world input like browsers do
+        # (
+        #     # a greater-than sign inside an attribute is parsed correctly even when the attribute name looks funny
+        #     '<button @keyup.escape.window="call(() => func())" > label </button>',
+        #     ['html', ['body', ['button', {'window': 'call(() => func())'}, 'label']]],
+        # ),
     ],
 )
 def test_html_parser(input_str, expected_tree):

@@ -9,7 +9,7 @@ import lxml.etree as ET  # noqa: N812
 
 BLOCK_TAGS = frozenset(
     [
-        # This list taken from https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
+        # This list taken from https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements and then augmented slightly
         "address",
         "article",
         "aside",
@@ -43,6 +43,9 @@ BLOCK_TAGS = frozenset(
         "pre",
         "section",
         "table",
+        "td",
+        "th",
+        "tr",
         "ul",
     ]
 )

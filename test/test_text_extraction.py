@@ -83,6 +83,26 @@ This verse
             "A single preformatted word",
             "A single preformatted word",
         ),
+        (
+            """
+              <table>
+                <tr>
+                  <th>First</th>
+                  <th>Last</th>
+                </tr>
+                <tr>
+                  <td>Bugs</td>
+                  <td>Bunny</td>
+                </tr>
+                <tr>
+                  <td>Genghis</td>
+                  <td>Khan</td>
+                </tr>
+              </table>
+            """,
+            "First Last Bugs Bunny Genghis Khan",
+            "First\n\nLast\n\nBugs\n\nBunny\n\nGenghis\n\nKhan",
+        ),
     ],
 )
 def test_extract_text(html, expected_default, expected_multiline):
