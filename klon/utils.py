@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
 
 # standards
-from typing import Any, Type, Union, no_type_check, overload
+from typing import Any, no_type_check, overload
 
 # 3rd parties
-import lxml.etree as ET
+import lxml.etree as ET  # noqa: N812
 
-
-Element = Union[ET._Element]  # this is exported, and can be used for type annotations
+Element = ET._Element  # this is exported, and can be used for type annotations
 
 
 @no_type_check  # until lxml-stubs improves
 def detach(node: Element, *, reattach_tail: bool = True) -> Element:
     parent = node.getparent()
     if parent is None:
-        raise Exception('Node has no parent')
+        raise Exception("Node has no parent")
     if reattach_tail and node.tail:
         prev = node.getprevious()
         if prev is not None:
@@ -30,16 +29,14 @@ def is_element(obj: Any) -> bool:
 
 
 @overload
-def tostring(etree: Union[Element, ET._ElementUnicodeResult], encoding: Type[str] = str, **kwargs) -> str:
-    ...
+def tostring(etree: Element | ET._ElementUnicodeResult, encoding: type[str] = str, **kwargs) -> str: ...
 @overload
-def tostring(etree: Union[Element, ET._ElementUnicodeResult], encoding: str, **kwargs) -> bytes:
-    ...
+def tostring(etree: Element | ET._ElementUnicodeResult, encoding: str, **kwargs) -> bytes: ...
 def tostring(etree, encoding=str, **kwargs):
     if isinstance(etree, ET._ElementUnicodeResult):
         text = str(etree)
         if encoding is not str:
             return text.encode(encoding)
         return text
-    kwargs.setdefault('method', 'html')
+    kwargs.setdefault("method", "html")
     return ET.tostring(etree, encoding=encoding, **kwargs).strip()

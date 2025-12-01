@@ -50,9 +50,12 @@ Source code: [klon/utils.py](klon/utils.py)
 
 A thin wrapper around [lxml.etree.tostring](https://lxml.de/api/lxml.etree-module.html#tostring).
 
+Defaults to HTML rules for rendering the element tree to a string. In these
+examples we use `method="xml"` to achieve nicer pretty-printing.
+
 ```python
 >>> from klon import tostring
->>> print(tostring(etree, pretty_print=True))
+>>> print(tostring(etree, pretty_print=True, method="xml"))
 <html>
   <head>
     <title>Test Document</title>
@@ -88,7 +91,7 @@ the output now contains both ASCII spaces and ASCII newlines.
 >>> from klon import extract_text
 
 >>> body = etree.find('body')  # using the same example etree defined above
->>> print(tostring(body, pretty_print=True))
+>>> print(tostring(body, pretty_print=True, method="xml"))
 <body>
   <h1 id="title">This is a test</h1>
   <a href="/page">
@@ -119,7 +122,7 @@ the tree.
 ```python
 >>> from klon import detach
 
->>> print(tostring(body, pretty_print=True))
+>>> print(tostring(body, pretty_print=True, method="xml"))
 <body>
   <h1 id="title">This is a test</h1>
   <a href="/page">
@@ -130,7 +133,7 @@ the tree.
 
 >>> br = detach(body.xpath('.//br')[0])
 
->>> print(tostring(body, pretty_print=True))
+>>> print(tostring(body, pretty_print=True, method="xml"))
 <body>
   <h1 id="title">This is a test</h1>
   <a href="/page">
@@ -157,12 +160,12 @@ tag attributes that specify a URL (e.g. `<a href="...">`, `<img src="...">`,
 >>> from klon import make_all_urls_absolute
 
 >>> print(tostring(body.find('a')))
-<a href="/page"><img src="image.jpg"/></a>
+<a href="/page"><img src="image.jpg"></a>
 
 >>> make_all_urls_absolute('https://site.com/path/', etree)
 
 >>> print(tostring(body.find('a')))
-<a href="https://site.com/page"><img src="https://site.com/path/image.jpg"/></a>
+<a href="https://site.com/page"><img src="https://site.com/path/image.jpg"></a>
 ```
 
 

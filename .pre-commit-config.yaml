@@ -2,12 +2,19 @@ repos:
 
 - repo: local
   hooks:
-  - id: pylint
-    name: pylint
-    entry: pylint
-    args: ['--load-plugins', 'pylint_quotes']
+  - id: ruff-check
+    name: ruff-check
+    entry: ruff
     language: python
     types: [python]
+    args: [check, --fix]
+
+  - id: ruff-format
+    name: ruff-format
+    entry: ruff
+    language: python
+    types: [python]
+    args: [format]
 
 - repo: local
   hooks:
