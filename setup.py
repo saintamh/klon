@@ -37,8 +37,8 @@ setuptools.setup(
     install_requires=[
         # NB lxml<4.6.5 is vulnerable to CVE-2021-43818, so a more recent version should be used. Klon will use whatever is
         # available, though.
-        'lxml>=4,<5',
-        'lxml-stubs>=0.1,<0.2',  # so that users can type-check their calls to Klon
+        'lxml>=4',
+        'lxml-stubs>=0.1',  # so that users can type-check their calls to Klon
         'requests>=2.25,<3',
     ],
     classifiers=[
