@@ -6,9 +6,28 @@ thin-ish, transparent wrapper around the [lxml.etree](https://lxml.de/api/)
 module.
 
 
+## Installation
+
+```bash
+pip install klon
+```
+
+### Optional: Type Checking
+
+If you use type annotations with klon (e.g., `from klon import Element`), install with type stubs:
+
+```bash
+pip install klon[typing]
+```
+
+This adds `lxml-stubs` which enables type checkers like mypy to understand lxml types used by klon.
+
+
+## API Reference
+
 ### klon.build_etree
 
-Source code: [klon/build.py](klon/build.py)
+Source code: [klon/build.py](https://github.com/saintamh/klon/tree/master/klon/build.py)
 
 A utility for building element trees using list and string literals.
 
@@ -46,7 +65,7 @@ tag name string, using CSS-like syntax: `tag#id` and `tag.class`.
 
 ### klon.tostring
 
-Source code: [klon/utils.py](klon/utils.py)
+Source code: [klon/utils.py](https://github.com/saintamh/klon/tree/master/klon/utils.py)
 
 A thin wrapper around [lxml.etree.tostring](https://lxml.de/api/lxml.etree-module.html#tostring).
 
@@ -77,7 +96,7 @@ default, i.e. it produces strings by default, rather than bytes.
 
 ### klon.extract_text
 
-Source code: [klon/text.py](klon/text.py)
+Source code: [klon/text.py](https://github.com/saintamh/klon/tree/master/klon/text.py)
 
 Extracts all text from the given node and its descendants.
 
@@ -113,7 +132,7 @@ translates to a single `\n`, mimicking how a browser renders them.
 
 ### klon.detach
 
-Source code: [klon/utils.py](klon/utils.py)
+Source code: [klon/utils.py](https://github.com/saintamh/klon/tree/master/klon/utils.py)
 
 Takes one node as argument, and removes it from its tree. Takes care to
 preserve the node's `tail` text by reattaching it to the correct position in
@@ -149,7 +168,7 @@ preserved, in this case by appending it to the `text` of its parent node.
 
 ### klon.make_all_urls_absolute
 
-Source code: [klon/html.py](klon/html.py)
+Source code: [klon/html.py](https://github.com/saintamh/klon/tree/master/klon/html.py)
 
 Takes a URL and a document etree, and modifies the etree in place to convert
 all relative URLs to absolute ones, using the given URL as a base. All standard
@@ -171,7 +190,7 @@ tag attributes that specify a URL (e.g. `<a href="...">`, `<img src="...">`,
 
 ### klon.parse_form
 
-Source code: [klon/forms.py](klon/forms.py)
+Source code: [klon/forms.py](https://github.com/saintamh/klon/tree/master/klon/forms.py)
 
 Takes an ElementTree whose root is a `<form>` node, and returns a
 `requests.Request` that corresponds to the request that would be sent by a

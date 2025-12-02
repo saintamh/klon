@@ -1,0 +1,83 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "klon"
+dynamic = ["version"]
+authors = [
+    {name = "Hervé Saint-Amand", email = "klon@saintamh.org"}
+]
+description = "Utilities for building and manipulating ElementTrees"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Text Processing :: Markup :: HTML",
+    "Topic :: Text Processing :: Markup :: XML",
+]
+dependencies = [
+    # NB lxml<4.6.5 is vulnerable to CVE-2021-43818, so a more recent version should be used. Klon will use whatever is
+    # available, though.
+    "lxml>=4",
+    "requests>=2.25,<3",
+]
+
+[project.optional-dependencies]
+# Type stubs needed for type-checking code that uses klon
+typing = ["lxml-stubs>=0.1"]
+
+[project.urls]
+Homepage = "https://github.com/saintamh/klon/"
+Repository = "https://github.com/saintamh/klon/"
+Issues = "https://github.com/saintamh/klon/issues"
+
+[tool.setuptools]
+packages = ["klon"]
+zip-safe = false  # https://mypy.readthedocs.io/en/latest/installed_packages.html#creating-pep-561-compatible-packages
+
+[tool.setuptools.dynamic]
+version = {attr = "klon.version.KLON_VERSION"}
+
+[tool.setuptools.package-data]
+klon = ["py.typed"]
+
+
+### Ruff
+
+[tool.ruff]
+line-length = 132
+
+[tool.ruff.lint]
+select = [
+    "F",   # Pyflakes
+    "E",   # Pycodestyle Errors
+    "W",   # Pycodestyle Warnings
+    "I",   # isort
+    "N",   # naming
+    "UP",  # pyupgrade
+    "PL",  # pylint
+]
+ignore = [
+    "N818",     # Exception class names must end in "Error"
+    "PLR2004",  # Magic value used in comparison
+    "UP031",    # Use format specifiers instead of percent format
+]
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+
+[tool.ruff.lint.pylint]
+max-args = 6
+
+
+### Mypy
+
+[tool.mypy]
+color_output = false
+
+[[tool.mypy.overrides]]
+module = ["lxml.*", "setuptools.*"]
+ignore_missing_imports = true
